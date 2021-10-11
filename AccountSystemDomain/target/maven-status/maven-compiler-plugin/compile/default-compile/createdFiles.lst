@@ -1,0 +1,13 @@
+org\example\domain\dto\UserDto.class
+org\example\domain\persistence\AccountType.class
+org\example\domain\persistence\User.class
+org\example\domain\dto\AccountTransactionDto.class
+org\example\domain\dto\AccountTypeDto.class
+org\example\domain\persistence\GetResponse.class
+org\example\domain\persistence\Miles.class
+org\example\domain\persistence\Rewards.class
+org\example\domain\dto\GoalsDto.class
+org\example\domain\persistence\Goals.class
+org\example\domain\dto\RewardsDto.class
+org\example\domain\dto\MilesDto.class
+org\example\domain\persistence\AccountTransaction.class

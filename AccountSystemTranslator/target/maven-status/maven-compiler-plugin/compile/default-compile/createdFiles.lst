@@ -1,0 +1,13 @@
+org\example\translator\impl\AccountTypeTrans.class
+org\example\translator\impl\UserTrans.class
+org\example\translator\impl\MilesTrans.class
+trans\AccountTransactionImpl.class
+trans\GoalsTranslmpl.class
+org\example\translator\impl\AccountTransactionTrans.class
+org\example\translator\impl\GoalsTrans.class
+trans\MilesTranslmpl.class
+trans\UserTransImpl.class
+org\example\translator\impl\RewardsTrans.class
+TransConfiguration\TransConfig.class
+trans\AccountTypeTransImpl.class
+trans\RewardsTranslmpl.class

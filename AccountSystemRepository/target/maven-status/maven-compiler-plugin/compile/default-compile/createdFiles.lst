@@ -1,0 +1,7 @@
+org\example\repository\persistence\UserRepo.class
+org\example\repository\persistence\AccountTransactionRepo.class
+org\example\repository\persistence\AccountTypeRepo.class
+org\example\repository\persistence\RewardRepo.class
+org\example\repository\persistence\MilesRepo.class
+org\example\repository\config\repositoryConfig.class
+org\example\repository\persistence\GoalsRepo.class
