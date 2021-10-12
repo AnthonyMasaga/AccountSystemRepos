@@ -37,7 +37,7 @@ public class AccountTypeController {
             @ApiResponse(code=500,message = "Internal server error"),
     })
     public ResponseEntity<GetResponse<List<AccountTypeDto>>> getAllGoals(){
-        List<AccountTypeDto> accountTypeDtos = accountTypeLogic.getAllAccountTypes();
+        List<AccountTypeDto> accountTypeDtos = accountTypeLogic.getAccountTypes();
         GetResponse<List<AccountTypeDto>> response = new GetResponse<>(true,accountTypeDtos);
         return new ResponseEntity<>(response, HttpStatus.OK);}
 

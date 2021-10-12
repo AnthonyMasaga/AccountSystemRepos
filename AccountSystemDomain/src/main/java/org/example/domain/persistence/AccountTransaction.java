@@ -11,77 +11,82 @@ import java.util.Set;
 public class AccountTransaction implements Serializable {
 
     private static final long serialVersionUID = -2282337134058330518L;
-    private Long transactionID;
-    private Long memberId;
-    private Long amount;
-    private LocalDate TransDate;
-    private Set<AccountType> accountTypes;
+    private Long Id;
+    private AccountType accountTypes;
+    private User user;
+    private double amount;
+    private String transType;
 
+    @ManyToOne
+    @JoinColumn(name = "account_type_account_type_id")
+    private AccountType accountType;
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
 
 
     public AccountTransaction() {
     }
 
-    public AccountTransaction(Long transactionID, Long memberId, Long amount, LocalDate transDate) {
-        this.transactionID = transactionID;
-        this.memberId = memberId;
+    public AccountTransaction(Long id, AccountType accountTypes, User user, double amount, String transType) {
+        Id = id;
+        this.accountTypes = accountTypes;
+        this.user = user;
         this.amount = amount;
-        TransDate = transDate;
-    }
-    public AccountTransaction(Long memberId, Long amount, LocalDate transDate) {
-        this.memberId = memberId;
-        this.amount = amount;
-        TransDate = transDate;
+        this.transType = transType;
     }
     @Id
-   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "VIT_RSA_GENERIC_SEQ")
+    @SequenceGenerator(name="SEQ_Transactions",sequenceName = "Transaction_GENERIC_SEQ",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_Transactions")
     @Column(name = "transactionID")
 
-    public Long getTransactionID() {
-        return transactionID;
-    }
-    @Column(name = "MEMBERID")
-
-    public Long getMemberId() {
-        return memberId;
-    }
-    @Column(name = "AMOUNT")
-
-    public Long getAmount() {
-        return amount;
-    }
-    @Column(name = "TRANSACTIONDATE")
-
-    public LocalDate getTransDate() {
-        return TransDate;
+    public Long getId() {
+        return Id;
     }
 
-
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "accountID")
-    public Set<AccountType> AccountType()
-    {       return accountTypes;
+    public void setId(Long id) {
+        Id = id;
     }
-    public AccountTransaction(Set<AccountType> accountTypes) {
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "AccountTypeID")
+    public AccountType getAccountTypes() {
+        return accountTypes;
+    }
+
+    public void setAccountTypes(AccountType accountTypes) {
         this.accountTypes = accountTypes;
     }
-
-
-    public void setTransactionID(Long transactionID) {
-        this.transactionID = transactionID;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "id")
+    public User getUser() {
+        return user;
     }
 
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
+    public void setUser(User user) {
+        this.user = user;
+    }
+    @Column(name = "amount")
+
+    public double getAmount() {
+        return amount;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
+    @Column(name = "TransactionType")
 
-    public void setTransDate(LocalDate transDate) {
-        TransDate = transDate;
+    public String getTransType() {
+        return transType;
+    }
+
+    public void setTransType(String transType) {
+        this.transType = transType;
     }
 
     @Override
@@ -89,21 +94,22 @@ public class AccountTransaction implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AccountTransaction that = (AccountTransaction) o;
-        return Objects.equals(transactionID, that.transactionID) && Objects.equals(memberId, that.memberId) && Objects.equals(amount, that.amount) && Objects.equals(TransDate, that.TransDate);
+        return Double.compare(that.amount, amount) == 0 && Objects.equals(Id, that.Id) && Objects.equals(accountTypes, that.accountTypes) && Objects.equals(user, that.user) && Objects.equals(transType, that.transType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(transactionID, memberId, amount, TransDate);
+        return Objects.hash(Id, accountTypes, user, amount, transType);
     }
 
     @Override
     public String toString() {
         return "AccountTransaction{" +
-                "transactionID=" + transactionID +
-                ", memberId=" + memberId +
+                "Id=" + Id +
+                ", accountTypes=" + accountTypes +
+                ", user=" + user +
                 ", amount=" + amount +
-                ", TransDate=" + TransDate +
+                ", transType='" + transType + '\'' +
                 '}';
     }
 }

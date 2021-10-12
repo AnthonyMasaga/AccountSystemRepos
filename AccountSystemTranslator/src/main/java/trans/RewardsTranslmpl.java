@@ -7,49 +7,66 @@ import org.example.translator.impl.RewardsTrans;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-
+@Transactional
 @Component
 public class RewardsTranslmpl implements RewardsTrans {
     private final RewardRepo rewardsRepo;
 
     @Autowired
-    public RewardsTranslmpl(RewardRepo rewardsRepo){
+    public RewardsTranslmpl(RewardRepo rewardsRepo) {
         this.rewardsRepo = rewardsRepo;
     }
 
+
     @Override
-    public List<RewardsDto> getRewards() {
-        List<RewardsDto> rewardsDtos = new ArrayList<>();
+    public List<RewardsDto> getAllRewards() {
+        List<RewardsDto> therewards = new ArrayList<>();
         try {
-            for (Rewards rewards:rewardsRepo.findAll()) {
-                rewardsDtos.add(new RewardsDto(rewards));
+            for (Rewards rewards: rewardsRepo.findAll()){
+                therewards.add(new RewardsDto(rewards));
             }
-        } catch (Exception e) {
-            throw new RuntimeException("Cannot get customers from the db", e);
+        }catch (Exception e){
+            throw new RuntimeException("Cannot get The rewards",e);
         }
-        return rewardsDtos;
-
+        return therewards;
     }
 
     @Override
-    public RewardsDto create(RewardsDto Rewards) {
-        return null;
+    public RewardsDto updateReward(Long id, int price) {
+        Rewards rewards;
+        try {
+            rewardsRepo.updateReward(id,price);
+            rewards = rewardsRepo.getOne(id);
+        }catch (Exception e){
+            throw new RuntimeException("Cannot update the reward",e);
+        }
+        return new RewardsDto(rewards);
     }
 
     @Override
-    public RewardsDto save(RewardsDto Rewards) {
-        return null;
+    public RewardsDto deleteReward(Long id) {
+        Rewards rewards;
+        try {
+            rewards = rewardsRepo.getOne(id);
+            rewardsRepo.delete(rewards);
+        }catch (Exception e){
+            throw new RuntimeException("Cannot delete the reward",e);
+        }
+        return new RewardsDto(rewards);
     }
 
     @Override
-    public void someMethod() {
-
-    }
-
-    @Override
-    public void delete(Rewards rewards) {
-
+    public RewardsDto addReward(RewardsDto rewardsDTO) {
+        Rewards rewards;
+        try {
+            rewards = rewardsDTO.buildRewards(rewardsDTO);
+            rewardsRepo.save(rewards);
+        }catch (Exception e){
+            throw new RuntimeException("Cannot add the reward",e);
+        }
+        return new RewardsDto(rewards);
     }
 }

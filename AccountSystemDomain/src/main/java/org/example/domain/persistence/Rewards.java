@@ -1,9 +1,6 @@
 package org.example.domain.persistence;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -15,27 +12,30 @@ public class Rewards implements Serializable {
 
     private Long VoucherId;
     private String name;
-    private int pace;
+    private int price;
+    private String category;
 
 
     public Rewards() {
     }
-    public Rewards(String id, String name, int pace) {
-        this.VoucherId= VoucherId;
-        this.name = name;
-        this.pace = pace;
 
+    public Rewards(Long voucherId, String name, int price, String category) {
+        VoucherId = voucherId;
+        this.name = name;
+        this.price = price;
+        this.category = category;
     }
     @Id
-    @Column(name = "Voucher_Id")
+    @SequenceGenerator(name="SEQ_Rewards",sequenceName = "Rewards_GENERIC_SEQ",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_Rewards")
+    @Column(name = "reward_id")
+
     public Long getVoucherId() {
         return VoucherId;
     }
-
     public void setVoucherId(Long voucherId) {
         VoucherId = voucherId;
     }
-
     @Column(name = "name")
     public String getName() {
         return name;
@@ -44,14 +44,23 @@ public class Rewards implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+    @Column(name = "price")
 
-    @Column(name = "dateIssued")
-    public int getPace() {
-        return pace;
+    public int getPrice() {
+        return price;
     }
 
-    public void setPace(int pace) {
-        this.pace = pace;
+    public void setPrice(int price) {
+        this.price = price;
+    }
+    @Column(name = "category")
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     @Override
@@ -59,12 +68,12 @@ public class Rewards implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Rewards rewards = (Rewards) o;
-        return pace == rewards.pace && Objects.equals(VoucherId, rewards.VoucherId) && Objects.equals(name, rewards.name);
+        return price == rewards.price && Objects.equals(VoucherId, rewards.VoucherId) && Objects.equals(name, rewards.name) && Objects.equals(category, rewards.category);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(VoucherId, name, pace);
+        return Objects.hash(VoucherId, name, price, category);
     }
 
     @Override
@@ -72,7 +81,8 @@ public class Rewards implements Serializable {
         return "Rewards{" +
                 "VoucherId=" + VoucherId +
                 ", name='" + name + '\'' +
-                ", pace=" + pace +
+                ", price=" + price +
+                ", category='" + category + '\'' +
                 '}';
     }
 }

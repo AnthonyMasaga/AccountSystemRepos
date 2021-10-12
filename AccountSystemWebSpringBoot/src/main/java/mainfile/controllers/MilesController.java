@@ -29,19 +29,19 @@ public class MilesController {
         this.milesIogic = milesIogic;
     }
     @GetMapping("/all")
-    @ApiOperation(value = "Gets all the details ", notes = "returns a list of miles")
+    @ApiOperation(value = "Gets all the miles to the db ", notes = "returns a list of miles")
     @ApiResponses(value = {
             @ApiResponse(code=200,message = "goals returned"),
             @ApiResponse(code=400,message = "Bad request"),
             @ApiResponse(code=404,message = "Not found"),
             @ApiResponse(code=500,message = "Internal server error"),
     })
-    public ResponseEntity <GetResponse<List<MilesDto>>> getAllGoals(){
+    public ResponseEntity<GetResponse<List<MilesDto>>> getAllGoals(){
         List<MilesDto> AccountTypeDtos = milesIogic.getAllMiles();
         GetResponse<List<MilesDto>> response = new GetResponse<>(true,AccountTypeDtos);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-@GetMapping("/member/{email}")
+@GetMapping("/User/{email}")
 @ApiOperation(value = "Gets all users' goals ", notes = "returns with a name")
     @ApiResponses(value = {
             @ApiResponse(code = 200 ,message = "Member goals"),
@@ -52,9 +52,9 @@ public class MilesController {
 public ResponseEntity<GetResponse<MilesDto>> getMemberMiles(
         @ApiParam(value = "Email for the user to search the miles",
                 required = true)
-        @PathVariable("email") String name){
-    MilesDto member = milesIogic.getMemberMiles(name);
-    GetResponse<MilesDto> response = new GetResponse<>(true,member);
+        @PathVariable("email") String email){
+    MilesDto miles = milesIogic.getMemberMiles(email);
+    GetResponse<MilesDto> response = new GetResponse<>(true,miles);
     return new ResponseEntity<>(response, HttpStatus.OK);
 }
 

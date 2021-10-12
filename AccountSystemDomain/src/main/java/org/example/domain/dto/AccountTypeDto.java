@@ -1,62 +1,53 @@
 package org.example.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.example.domain.persistence.AccountTransaction;
+import org.example.domain.persistence.AccountType;
 
 import java.time.LocalDate;
 import java.util.Set;
 
 public class AccountTypeDto {
-    private Long accountID;
-    private String mnemonic;
     private String accountName;
-    private LocalDate creationDate;
-    private Set<AccountTransaction> accountTransactions;
+    private String nmonic;
 
     public AccountTypeDto() {
     }
 
-    public AccountTypeDto(String mnemonic, String accountName, LocalDate creationDate) {
-        this.mnemonic = mnemonic;
+    public AccountTypeDto(String accountName, String nmonic) {
         this.accountName = accountName;
-        this.creationDate = creationDate;
+        this.nmonic = nmonic;
     }
-
-    public String getMnemonic() {
-        return mnemonic;
+    public AccountTypeDto(AccountType accountType){
+        this.accountName = accountType. getAccountName();
+        this.nmonic = accountType.getMnemonic();
     }
-
-    public void setMnemonic(String mnemonic) {
-        this.mnemonic = mnemonic;
+    @JsonIgnore
+    public AccountType buildTypeaccount(AccountTypeDto  accountTypeDtos){
+        return new AccountType(null,this.getAccountName(),this.getNmonic(),LocalDate.now());
     }
 
     public String getAccountName() {
         return accountName;
     }
 
-    public void setAccountName(String accountName) {
+    public void setName(String name) {
         this.accountName = accountName;
     }
 
-    public LocalDate getCreationDate() {
-        return creationDate;
+    public String getNmonic() {
+        return nmonic;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
-    }
-
-   public AccountTypeDto(Set<AccountTransaction> accountTransactions) {
-       this.accountTransactions = accountTransactions;
+    public void setNmonic(String nmonic) {
+        this.nmonic = nmonic;
     }
 
     @Override
     public String toString() {
         return "AccountTypeDto{" +
-                "accountID=" + accountID +
-                ", mnemonic='" + mnemonic + '\'' +
-                ", accountName='" + accountName + '\'' +
-                ", creationDate=" + creationDate +
-                ", accountTransactions=" + accountTransactions +
+                "name='" + accountName + '\'' +
+                ", nmonic='" + nmonic + '\'' +
                 '}';
     }
 }

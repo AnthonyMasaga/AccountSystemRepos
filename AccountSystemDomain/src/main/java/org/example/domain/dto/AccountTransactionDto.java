@@ -1,63 +1,82 @@
 package org.example.domain.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.example.domain.persistence.AccountTransaction;
 import org.example.domain.persistence.AccountType;
+import org.example.domain.persistence.User;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
 
 public class AccountTransactionDto implements Serializable {
-    private Long memberId;
-    private Long amount;
-    private LocalDate TransDate;
-    private Set<AccountType> accountTypes;
+    private AccountType accountTypes;
+    private User user;
+    private double amount;
+    private String transType;
 
 
     public AccountTransactionDto() {
     }
 
-    public AccountTransactionDto(Long memberId, Long amount, LocalDate transDate) {
-        this.memberId = memberId;
+    public AccountTransactionDto(AccountType accountTypes, User user, double amount, String transType) {
+        this.accountTypes = accountTypes;
+        this.user = user;
         this.amount = amount;
-        TransDate = transDate;
+        this.transType = transType;
     }
 
-    public Long getMemberId() {
-        return memberId;
+    public AccountTransactionDto(AccountTransaction accountTransaction) {
+        this.amount = accountTransaction.getAmount();
+        this.transType = accountTransaction.getTransType();
+
+
+    }
+    @JsonIgnore
+    public AccountTransaction buildTransaction(AccountType typeAccount,User user){
+        return new AccountTransaction(null,typeAccount,user,this.getAmount(),this.getTransType());
     }
 
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
+    public AccountType getAccountTypes() {
+        return accountTypes;
     }
 
-    public Long getAmount() {
+    public void setAccountTypes(AccountType accountTypes) {
+        this.accountTypes = accountTypes;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
-    public LocalDate getTransDate() {
-        return TransDate;
+    public String getTransType() {
+        return transType;
     }
 
-    public void setTransDate(LocalDate transDate) {
-        TransDate = transDate;
-    }
-
-    public AccountTransactionDto(Set<AccountType> accountTypes) {
-        this.accountTypes= accountTypes;
+    public void setTransType(String transType) {
+        this.transType = transType;
     }
 
     @Override
     public String toString() {
         return "AccountTransactionDto{" +
-                "memberId=" + memberId +
+                "accountTypes=" + accountTypes +
+                ", user=" + user +
                 ", amount=" + amount +
-                ", TransDate=" + TransDate +
+                ", transType='" + transType + '\'' +
                 '}';
     }
 }

@@ -8,71 +8,58 @@ import org.example.translator.impl.AccountTypeTrans;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
+@Transactional
 @Component
 public class AccountTypeTransImpl implements AccountTypeTrans {
-    private final AccountTypeRepo accountTypeRepo;
+    private AccountTypeRepo accountTypeRepo;
 
     @Autowired
     public AccountTypeTransImpl(AccountTypeRepo accountTypeRepo) {
         this.accountTypeRepo = accountTypeRepo;
     }
 
+
     @Override
     public List<AccountTypeDto> getAccountTypes() {
-        List<AccountTypeDto> accountTypeDtos = new ArrayList<>();
+        List<AccountTypeDto> theaccountTypes = new ArrayList<>();
         try {
-            for(AccountType accountType:accountTypeRepo.findAll()){
-                accountTypeDtos.add(new AccountTypeDto((Set<AccountTransaction>) accountType));
+            for (AccountType account : accountTypeRepo.findAll()) {
+                theaccountTypes.add(new AccountTypeDto(account));
             }
-        }catch (Exception e){
-            throw new RuntimeException("Cannot get account types from the db",e);
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot get The account types", e);
         }
-        return accountTypeDtos;
-
+        return theaccountTypes;
     }
 
     @Override
-    public AccountTypeDto create(AccountTypeDto AccountType) {
+    public void deleteAccountType(String nmonic) {
+        try {
+            accountTypeRepo.deleteByNmonic(nmonic);
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot get delete account type", e);
+        }
+    }
+
+
+    @Override
+    public AccountTypeDto getAccountType(String nmonic) {
+        AccountTypeDto accountTypeDto;
+        try {
+            accountTypeDto = new AccountTypeDto(accountTypeRepo.getAccountType(nmonic));
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot get The account type", e);
+        }
+        return accountTypeDto;
+    }
+
+    @Override
+    public AccountTypeDto addAccountType(AccountTypeDto accountTypeDto) {
         return null;
-    }
-
-    @Override
-    public AccountTypeDto save(AccountTypeDto AccountType) {
-        return null;
-    }
-
-    @Override
-    public AccountTypeDto getAccountTypeByMnemonicNativeQuery(String mnemonic) {
-        return null;
-    }
-
-    @Override
-    public AccountTypeDto getAccountTypeByMnemonic(String mnemonic) {
-        return null;
-    }
-
-    @Override
-    public AccountTypeDto getAccountTypeDtoByMnemonic(String mnemonic) {
-        return null;
-    }
-
-    @Override
-    public void someMethod() {
-
-    }
-
-    @Override
-    public AccountType getAccountTypeByDbEntityByMnemonic(String mnemonic) {
-        return null;
-    }
-
-    @Override
-    public void delete(AccountType accountType) {
-
     }
 }
 

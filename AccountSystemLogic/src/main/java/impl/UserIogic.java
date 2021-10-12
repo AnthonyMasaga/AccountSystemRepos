@@ -8,7 +8,8 @@ import java.util.List;
 @Component
 public interface UserIogic {
 
-    List<UserDto> getAllCustomer();
-
-    MilesDto getUserEmail(String email);
+    List<UserDto> getAllUsers();
+    UserDto getUser(String email);
+    UserDto deleteMember(String email);
+    UserDto addUser(UserDto userDto);
 }

@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.example.domain.dto.AccountTransactionDto;
 import org.example.domain.dto.AccountTypeDto;
+import org.example.domain.persistence.AccountType;
 import org.example.domain.persistence.GetResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,11 +20,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/AccountTransaction")
 public class AccountTransactionController {
+    private AccountTypeLogic accountTypeLogic;
     private AccountTransactionLogic accountTransactionLogic ;
 
     @Autowired
-    public AccountTransactionController(AccountTransactionLogic accountTransactionLogic){
-        this.accountTransactionLogic = accountTransactionLogic;
+    public AccountTransactionController(AccountTransactionLogic accountTransactionLogic, AccountTypeLogic accountTypeLogic) {
+    this.accountTypeLogic = accountTypeLogic;
+    this.accountTransactionLogic = accountTransactionLogic;
     }
     @GetMapping("/all")
     @ApiOperation(value = "Gets all account transactions ", notes = "returns a list of account types")
@@ -33,9 +36,9 @@ public class AccountTransactionController {
             @ApiResponse(code=404,message = "Not found"),
             @ApiResponse(code=500,message = "Internal server error"),
     })
-    public ResponseEntity<GetResponse<List<AccountTransactionDto>>> getAllAccounts(){
-        List<AccountTransactionDto> accountTransactionDtos = accountTransactionLogic.getAllAccountTransactions();
-        GetResponse<List<AccountTransactionDto>> response = new GetResponse<>(true,accountTransactionDtos);
+    public ResponseEntity<GetResponse<List<AccountTypeDto>>> getAllGoals(){
+        List<AccountTypeDto> accountTypeDtos = accountTypeLogic.getAccountTypes();
+        GetResponse<List<AccountTypeDto>> response = new GetResponse<>(true,accountTypeDtos);
         return new ResponseEntity<>(response, HttpStatus.OK);}
 
 }

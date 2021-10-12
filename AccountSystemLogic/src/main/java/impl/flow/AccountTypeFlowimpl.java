@@ -13,15 +13,26 @@ public class AccountTypeFlowimpl implements AccountTypeLogic {
 
     @Autowired
     public AccountTypeFlowimpl(AccountTypeTrans accountTypeTrans) {
-        this.accountTypeTrans= accountTypeTrans;
+        this.accountTypeTrans = accountTypeTrans;
     }
 
-
+    @Override
+    public List<AccountTypeDto> getAccountTypes() {
+        return accountTypeTrans.getAccountTypes();
+    }
 
     @Override
-    public List<AccountTypeDto> getAllAccountTypes(){
-        List<AccountTypeDto> accountTypeDtos = new ArrayList<>();
-        accountTypeDtos.add(new AccountTypeDto());
-        return accountTypeTrans.getAccountTypes();
+    public void deleteAccountType(String nmonic) {
+    accountTypeTrans.deleteAccountType(nmonic);
+    }
+
+    @Override
+    public AccountTypeDto getAccountType(String nmonic) {
+        return accountTypeTrans.getAccountType(nmonic);
+    }
+
+    @Override
+    public AccountTypeDto addAccountType(AccountTypeDto accountTypeDto) {
+        return accountTypeTrans.addAccountType(accountTypeDto);
     }
 }

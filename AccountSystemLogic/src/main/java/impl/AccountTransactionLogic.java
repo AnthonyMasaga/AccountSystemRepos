@@ -11,9 +11,7 @@ import java.util.List;
 @Transactional
 @Component
 public interface AccountTransactionLogic {
-    List<AccountTransactionDto> getAllAccountTransactions();
-
-    List<AccountTransactionDto> getAllTransactions();
-
-
+    List<AccountTransactionDto> getmemberTransaction(String email);
+    void deleteMemberTransaction(String email);
+    AccountTransactionDto addTransaction(AccountTransactionDto accountTransactionDto);
 }

@@ -9,10 +9,11 @@ import java.util.List;
 public interface RewardsIogic {
     List<RewardsDto> getAllRewards();
 
-    RewardsDto addReward(RewardsDto rewardsDto);
+    //RewardsDto addReward(RewardsDto rewardsDto);
 
     RewardsDto updateRewards(Long id, int price);
 
     RewardsDto deleteRewards(Long id);
+    RewardsDto addReward(RewardsDto rewardsDto);
 }
 

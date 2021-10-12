@@ -13,26 +13,30 @@ import java.util.List;
 @Transactional
 @Component
 public class UserFlowimpl implements UserIogic {
-    private UserTrans customerTrans;
+    private UserTrans userTrans;
 
     @Autowired
-    public UserFlowimpl(UserTrans customerTrans) {
-        this.customerTrans = customerTrans;
+    public UserFlowimpl(UserTrans userTrans) {
+        this. userTrans=  userTrans;
     }
-
-
-
     @Override
-    public List<UserDto> getAllCustomer() {
-        List<UserDto> customerDtos = new ArrayList<>();
-        //customerDtos.add(new UserDto());
-        customerDtos.add(new UserDto());
-
-        return customerTrans.getCustomers();
+    public List<UserDto> getAllUsers()
+    {
+        return userTrans.getAllUsers();
     }
 
     @Override
-    public MilesDto getUserEmail(String email) {
-        return null;
+    public UserDto getUser(String email) {
+        return userTrans.getUser(email);
+    }
+
+    @Override
+    public UserDto deleteMember(String email) {
+        return userTrans.deleteMember(email);
+    }
+
+    @Override
+    public UserDto addUser(UserDto userDto) {
+        return userTrans.addMember(userDto);
     }
 }

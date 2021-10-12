@@ -1,16 +1,18 @@
 package org.example.domain.persistence;
 
 
+import org.example.domain.dto.AccountTypeDto;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "Account_type")
-public class AccountType implements Serializable
-{
+@Table(name = "AccountType")
+public class AccountType implements Serializable {
     private static final long serialVersionUID = -2282337134058330518L;
     private Long accountID;
     private String mnemonic;
@@ -27,56 +29,71 @@ public class AccountType implements Serializable
         this.accountName = accountName;
         this.creationDate = creationDate;
     }
-    public AccountType( String mnemonic, String accountName, LocalDate creationDate) {
+
+    public AccountType(Long accountID, String mnemonic, String accountName, LocalDate creationDate, Set<AccountTransaction> accountTransactions) {
+        this.accountID = accountID;
         this.mnemonic = mnemonic;
         this.accountName = accountName;
         this.creationDate = creationDate;
+        this.accountTransactions = accountTransactions;
     }
+
     @Id
-    @SequenceGenerator(name = "VIT-RSA-GENERIC_SEQ", sequenceName = "VITRSA_SANDBOX_VIT_RSA_GENERIC_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "VIT_RSA_GENERIC_SEQ")
-    @Column(name = "AccountID")
+    @SequenceGenerator(name = "SEQ_TypeAccount", sequenceName = "AcountType_GENERIC_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_TypeAccount")
+    @Column(name = "AccountTypeID")
+
     public Long getAccountID() {
         return accountID;
-    }
-
-    @Column(name = "MNEMONIC")
-    public String getMnemonic() {
-        return mnemonic;
-    }
-    @Column(name = "ACCOUNT_NAME")
-
-    public String getAccountName() {
-        return accountName;
-    }
-    @Column(name = "CREATION_DATE")
-
-    public LocalDate getCreationDate() {
-        return creationDate;
-    }
-    @OneToMany(targetEntity = AccountTransaction.class, fetch = FetchType.LAZY, mappedBy = "accountType", orphanRemoval = true,cascade = CascadeType.PERSIST )
-    public Set<AccountTransaction> AccountTransaction()
-{       return accountTransactions;
-    }
-
-    public void setAccountTransactions(Set<AccountTransaction> accountTransactions) {
-        this.accountTransactions = accountTransactions;
     }
 
     public void setAccountID(Long accountID) {
         this.accountID = accountID;
     }
 
+    @Column(name = "mnemonic")
+
+    public String getMnemonic() {
+        return mnemonic;
+    }
+
     public void setMnemonic(String mnemonic) {
         this.mnemonic = mnemonic;
+    }
+
+    @Column(name = "accountName")
+
+    public String getAccountName() {
+        return accountName;
     }
 
     public void setAccountName(String accountName) {
         this.accountName = accountName;
     }
 
+    @Column(name = "creationDate")
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
     public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
+    }
+
+   // @Column(name = "accountTransactions")
+
+
+
+
+
+    @OneToMany(targetEntity = AccountTransaction.class, fetch = FetchType.LAZY, mappedBy = "accountType", cascade = CascadeType.ALL)
+    public Set<AccountTransaction> getAccountTransactions() {
+        return accountTransactions;
+    }
+
+    public void setAccountTransactions(Set<AccountTransaction> accountTransactions) {
+        this.accountTransactions = accountTransactions;
     }
 
     @Override
@@ -99,8 +116,10 @@ public class AccountType implements Serializable
                 ", mnemonic='" + mnemonic + '\'' +
                 ", accountName='" + accountName + '\'' +
                 ", creationDate=" + creationDate +
-                ",accountTransactions=" + accountTransactions +
+                ", accountTransactions=" + accountTransactions +
                 '}';
     }
+
+
 }
 

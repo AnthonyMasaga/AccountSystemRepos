@@ -1,12 +1,10 @@
 package mainfile.controllers;
 
-import impl.GoalsIogic;
 import impl.RewardsIogic;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.example.domain.dto.GoalsDto;
 import org.example.domain.dto.RewardsDto;
 import org.example.domain.persistence.GetResponse;
 import org.springframework.beans.factory.annotation.Autowired;

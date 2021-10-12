@@ -1,60 +1,65 @@
 package org.example.domain.persistence;
-import javax.persistence.Column;
+import org.springframework.stereotype.Component;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
-
+@Component
 @Entity
-@Table(name ="Miles_Table")
+@Table(name ="Miles")
 public class Miles implements Serializable {
     private static final long serialVersionUID = -2282337134058330518L;
 
     private Long MilestoneId;
-    private String name;
+    private String email;
     private int Miles;
-    private Date DateComplete;
+    private Date DateCompleted;
+    private  int spending;
+    private  int healthandsafety;
+    private  int driving;
+    private User user;
 
-    private Set<Miles> miles;
+    //private Set<Miles> miles;
+
 
     public Miles() {
     }
 
-    public Miles(Long Id,String name,int miles, Date DateComplete) {
-        this.MilestoneId= MilestoneId;
-        this.name = name;
-        Miles = miles;
-        this.DateComplete= DateComplete;
-
+    public Miles(Long milestoneId, String email, int miles, Date dateCompleted, int spending, int healthandsafety, int driving, User user) {
+        this.MilestoneId = milestoneId;
+        this.email = email;
+        this.Miles = miles;
+        this.DateCompleted = dateCompleted;
+        this.spending = spending;
+        this.healthandsafety = healthandsafety;
+        this.driving = driving;
+        this.user = user;
     }
 
+
+
     @Id
-    @Column(name = "Id")
+    @SequenceGenerator(name="SEQ_Miles",sequenceName = "Miles_GENERIC_SEQ",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_Miles")
+    @Column(name = "milestoneId")
     public Long getMilestoneId() {
         return MilestoneId;
     }
-
     public void setMilestoneId(Long milestoneId) {
         MilestoneId = milestoneId;
     }
-
-
-
-
-    @Column(name = "name")
-    public String getName() {
-        return name;
+    @Column(name = "Email")
+    public String getEmail() {
+        return email;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setEmail(String email) {
+        this.email = email;
     }
-    
-    @Column(name = "MilesCompleted")
+    @Column(name = "Miles")
     public int getMiles() {
         return Miles;
     }
@@ -63,35 +68,75 @@ public class Miles implements Serializable {
     }
 
     @Column(name = "DateCompleted")
-    public Date getDateComplete() {
-        return DateComplete;
+    public Date getDateCompleted() {
+        return DateCompleted;
+    }
+    public void setDateCompleted(Date dateCompleted) {
+        DateCompleted = dateCompleted;
+    }
+    @Column(name = "Spending")
+
+    public int getSpending() {
+        return spending;
     }
 
-    public void setDateComplete(Date dateComplete) {
-        DateComplete = dateComplete;
+    public void setSpending(int spending) {
+        this.spending = spending;
+    }
+    @Column(name = "healthandsafety")
+
+    public int getHealthandsafety() {
+        return healthandsafety;
+    }
+
+    public void setHealthandsafety(int healthandsafety) {
+        this.healthandsafety = healthandsafety;
+    }
+
+    public int getDriving() {
+        return driving;
+    }
+
+    public void setDriving(int driving) {
+        this.driving = driving;
+    }
+
+   // @Column(name = "Driving")
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @Column(name = "id")
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Miles miles1 = (Miles) o;
-        return Miles == miles1.Miles && Objects.equals(MilestoneId, miles1.MilestoneId) && Objects.equals(name, miles1.name) && Objects.equals(DateComplete, miles1.DateComplete) && Objects.equals(miles, miles1.miles);
+        Miles miles = (Miles) o;
+        return Miles == miles.Miles && spending == miles.spending && healthandsafety == miles.healthandsafety && driving == miles.driving && Objects.equals(MilestoneId, miles.MilestoneId) && Objects.equals(email, miles.email) && Objects.equals(DateCompleted, miles.DateCompleted) && Objects.equals(user, miles.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(MilestoneId, name, Miles, DateComplete, miles);
+        return Objects.hash(MilestoneId, email, Miles, DateCompleted, spending, healthandsafety, driving, user);
     }
 
     @Override
     public String toString() {
         return "Miles{" +
                 "MilestoneId=" + MilestoneId +
-                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
                 ", Miles=" + Miles +
-                ", DateComplete=" + DateComplete +
-                ", miles=" + miles +
+                ", DateCompleted=" + DateCompleted +
+                ", spending=" + spending +
+                ", healthandsafety=" + healthandsafety +
+                ", driving=" + driving +
+                ", user=" + user +
                 '}';
     }
 }

@@ -23,22 +23,22 @@ public class RewardsFlowimpl implements RewardsIogic {
 
     @Override
     public List<RewardsDto> getAllRewards() {
-        return rewardsTrans.getRewards();
+        return rewardsTrans.getAllRewards();
     }
 
     @Override
     public RewardsDto addReward(RewardsDto rewardsDto) {
-        return null;
+        return rewardsTrans.addReward(rewardsDto);
     }
 
     @Override
     public RewardsDto updateRewards(Long id, int price) {
-        return null;
+        return rewardsTrans.updateReward(id,price);
     }
 
     @Override
     public RewardsDto deleteRewards(Long id) {
-        return null;
+        return rewardsTrans.deleteReward(id);
     }
 }
 

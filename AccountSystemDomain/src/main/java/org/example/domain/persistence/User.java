@@ -2,10 +2,7 @@ package org.example.domain.persistence;
 
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
@@ -20,6 +17,10 @@ public class User implements Serializable {
     private String Email;
     private long cell;
     private String address;
+    private int age;
+    private Miles miles;
+    private Set<AccountTransaction> accountTransaction;
+
 
     private Set<Rewards> rewards;
 
@@ -28,16 +29,31 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Long id, String name, String email, long cell, String address) {
+    public User(Long id, String name, String email, long cell, String address, int age ) {
         this.id = id;
         Name = name;
         Email = email;
         this.cell = cell;
         this.address = address;
-    }
+        this.age = age;}
+
+    public User(Long id, String name, String email, long cell, String address, int age,Miles miles , Set<AccountTransaction> accountTransaction ) {
+        this.id = id;
+        Name = name;
+        Email = email;
+        this.cell = cell;
+        this.address = address;
+        this.age = age;
+        this.miles = miles;
+        this.accountTransaction = accountTransaction;
+        }
+
 
     @Id
+    @SequenceGenerator(name="SEQ_User",sequenceName= " User_GENERIC_SEQ",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_Person")
     @Column(name = "id")
+
     public Long getId() {
         return id;
     }
@@ -81,18 +97,39 @@ public class User implements Serializable {
     public void setAddress(String address) {
         this.address = address;
     }
+    @Column(name = "age")
+    public int getAge() {
+        return age;
+    }public void setAge(int age) {
+        this.age = age;
+    }
+    @OneToOne(targetEntity = Miles.class, fetch = FetchType.LAZY,optional = true, mappedBy = "user", cascade = CascadeType.PERSIST)
+    public Miles getMiles() {
+        return miles;
+    }
+    public void setMiles(Miles miles) {
+        this.miles = miles;
+    }
+    @OneToMany(targetEntity = AccountTransaction.class, fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    public Set<AccountTransaction> getAccountTransaction() {
+        return accountTransaction;
+    }
+
+    public void setAccountTransaction(Set<AccountTransaction> accountTransaction) {
+        this.accountTransaction = accountTransaction;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User customer = (User) o;
-        return id == customer.id && cell == customer.cell && Objects.equals(Name, customer.Name) && Objects.equals(Email, customer.Email) && Objects.equals(address, customer.address);
+        User user = (User) o;
+        return cell == user.cell && age == user.age && Objects.equals(id, user.id) && Objects.equals(Name, user.Name) && Objects.equals(Email, user.Email) && Objects.equals(address, user.address) && Objects.equals(miles, user.miles) && Objects.equals(accountTransaction, user.accountTransaction) && Objects.equals(rewards, user.rewards);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, Name, Email, cell, address);
+        return Objects.hash(id, Name, Email, cell, address, age, miles, accountTransaction, rewards);
     }
 
     @Override
@@ -103,6 +140,10 @@ public class User implements Serializable {
                 ", Email='" + Email + '\'' +
                 ", cell=" + cell +
                 ", address='" + address + '\'' +
+                ", age=" + age +
+                ", miles=" + miles +
+                ", accountTransaction=" + accountTransaction +
+                ", rewards=" + rewards +
                 '}';
     }
 }
